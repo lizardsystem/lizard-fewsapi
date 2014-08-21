@@ -5,13 +5,12 @@ from __future__ import print_function
 import json
 import logging
 import os
-from pprint import pprint
+import time
 
 from django.core.management.base import BaseCommand
 
 from lizard_fewsapi import collect
 from lizard_fewsapi import models
-from lizard_fewsapi.conf import settings
 
 
 logger = logging.getLogger(__name__)
@@ -23,6 +22,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         for fews_instance in models.FewsInstance.objects.all():
+            start = time.time()
             logger.debug("Downloading for %s", fews_instance)
             if not os.path.exists(fews_instance.cache_dir):
                 os.mkdir(fews_instance.cache_dir)
@@ -33,4 +33,8 @@ class Command(BaseCommand):
                 json.dump(collection_function(url),
                           open(filename, 'w'),
                           indent=4)
-                logger.info("Wrote %s", filename)
+                logger.debug("Wrote %s", filename)
+            end = time.time()
+            logger.debug("Downloading data for %s took %s seconds",
+                         fews_instance,
+                         int(end - start))
