@@ -17,7 +17,7 @@ class MyAppConf(AppConf):
     def configure_cache_dir(self, value):
         if value is not None:
             return value
-        tempdir  = tempfile.mkdtemp(prefix='fewsapi')
+        tempdir  = tempfile.mkdtemp(prefix='fewsapi-')
         logger.warn(
             "LIZARD_FEWSAPI_CACHE_DIR is not set. Using a temp dir: %s",
             tempdir)
