@@ -2,10 +2,17 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from __future__ import print_function
+import json
+import os
 
 from django.core.urlresolvers import reverse
 from django.db import models
+from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
+
+from lizard_fewsapi.conf import settings  # Ensure it is loaded
+
+FPL = ['filters', 'parameters', 'locations']
 
 
 class FewsInstance(models.Model):
@@ -31,15 +38,28 @@ class FewsInstance(models.Model):
     def __unicode__(self):
         return self.name or self.url
 
-    def base_url(self):
-        base = self.url.rstrip('/')
-        return base + '/fews_sources/'
+    @cached_property
+    def download_urls(self):
+        base_url = self.url.rstrip('/') + '/fews_sources/'
+        return {key: base_url + key for key in FPL}
 
-    def parameters_url(self):
-        return self.base_url() + 'parameters'
+    @cached_property
+    def cache_dir(self):
+        base_dir = settings.LIZARD_FEWSAPI_CACHE_DIR
+        return os.path.join(base_dir, str(self.id))
 
-    def filters_url(self):
-        return self.base_url() + 'filters'
+    @cached_property
+    def json_filenames(self):
+        return {key: os.path.join(self.cache_dir, key + '.json') for key in FPL}
 
-    def locations_url(self):
-        return self.base_url() + 'locations'
+    @cached_property
+    def filters(self):
+        return json.load(open(self.json_filenames['filters']))
+
+    @cached_property
+    def parameters(self):
+        return json.load(open(self.json_filenames['parameters']))
+
+    @cached_property
+    def locations(self):
+        return json.load(open(self.json_filenames['locations']))

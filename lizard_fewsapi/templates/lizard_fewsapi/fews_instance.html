@@ -12,21 +12,26 @@
     </dd>
     <dt>Parameters URL</dt>
     <dd>
-      <a href="{{ view.fews_instance.parameters_url }}">
-        {{ view.fews_instance.parameters_url }}
+      <a href="{{ view.fews_instance.download_urls.parameters }}">
+        {{ view.fews_instance.download_urls.parameters }}
       </a>
     </dd>
     <dt>Filters URL</dt>
     <dd>
-      <a href="{{ view.fews_instance.filters_url }}">
-        {{ view.fews_instance.filters_url }}
+      <a href="{{ view.fews_instance.download_urls.filters }}">
+        {{ view.fews_instance.download_urls.filters }}
       </a>
     </dd>
     <dt>Locations URL</dt>
     <dd>
-      <a href="{{ view.fews_instance.locations_url }}">
-        {{ view.fews_instance.locations_url }}
+      <a href="{{ view.fews_instance.download_urls.locations }}">
+        {{ view.fews_instance.download_urls.locations }}
       </a>
     </dd>
   </dt>
+
+  <h2>Filters</h2>
+  <pre>{{ view.fews_instance.filters }}</pre>
+  <!-- TODO: ul/li list -->
+
 {% endblock content %}

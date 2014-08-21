@@ -122,6 +122,7 @@ STATICFILES_DIRS = [
     # ^^^ bower-managed files.
 ]
 
+LIZARD_FEWSAPI_CACHE_DIR = os.path.join(BUILDOUT_DIR, 'var', 'fewsapi')
 
 try:
     # Import local settings that aren't stored in svn/git.

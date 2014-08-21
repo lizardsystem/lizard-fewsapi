@@ -13,6 +13,7 @@ from lizard_fewsapi import collect
 from lizard_fewsapi import models
 from lizard_fewsapi.conf import settings
 
+
 logger = logging.getLogger(__name__)
 
 
@@ -21,14 +22,15 @@ class Command(BaseCommand):
     help = "Download the filters/params/etc from the FEWS 'dac' API."
 
     def handle(self, *args, **options):
-        base_dir = settings.LIZARD_FEWSAPI_CACHE_DIR
         for fews_instance in models.FewsInstance.objects.all():
             logger.debug("Downloading for %s", fews_instance)
-            instance_dir = os.path.join(base_dir, str(fews_instance.id))
-            if not os.path.exists(instance_dir):
-                os.mkdir(instance_dir)
-            filters_filename = os.path.join(instance_dir, 'filters.json')
-            json.dump(collect.collect_filters(fews_instance.filters_url()),
-                      open(filters_filename, 'w'),
-                      indent=4)
-            logger.info("Wrote %s", filters_filename)
+            if not os.path.exists(fews_instance.cache_dir):
+                os.mkdir(fews_instance.cache_dir)
+            for kind in models.FPL:  # Filters, parameters, locations
+                filename = fews_instance.json_filenames[kind]
+                url = fews_instance.download_urls[kind]
+                collection_function = getattr(collect, 'collect_' + kind)
+                json.dump(collection_function(url),
+                          open(filename, 'w'),
+                          indent=4)
+                logger.info("Wrote %s", filename)

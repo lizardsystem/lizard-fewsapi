@@ -11,13 +11,29 @@ logger = logging.getLogger(__name__)
 
 def collect_filters(url):
     """Return filters from FEWS, cleaned and ready for storing as json."""
-    r = requests.get(url)
-    r.raise_for_status()  # Only raises an error when not succesful.
-    from_fews = r.json()
+    from_fews = _download(url)
     result = []
     for filter_dict in from_fews:
         result.append(_process_filter_dict(filter_dict))
     return result
+
+
+def collect_parameters(url):
+    from_fews = _download(url)
+    # TODO
+    return from_fews
+
+
+def collect_locations(url):
+    from_fews = _download(url)
+    # TODO
+    return from_fews
+
+
+def _download(url):
+    r = requests.get(url)
+    r.raise_for_status()  # Only raises an error when not succesful.
+    return r.json()
 
 
 def _process_filter_dict(filter_dict):
