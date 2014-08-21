@@ -24,15 +24,15 @@ tests_require = [
 
 setup(name='lizard-fewsapi',
       version=version,
-      description="TODO",
+      description="Experimental REST api: nice lizard-like api for lizard, content from Alexander's FEWS 'dac' API",
       long_description=long_description,
       # Get strings from http://www.python.org/pypi?%3Aaction=list_classifiers
       classifiers=['Programming Language :: Python',
                    'Framework :: Django',
                    ],
       keywords=[],
-      author='TODO',
-      author_email='TODO@nelen-schuurmans.nl',
+      author='Reinout van Rees',
+      author_email='reinout.vanrees@nelen-schuurmans.nl',
       url='',
       license='GPL',
       packages=['lizard_fewsapi'],
