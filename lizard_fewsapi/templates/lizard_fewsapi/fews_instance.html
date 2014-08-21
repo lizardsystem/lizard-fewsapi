@@ -1,0 +1,32 @@
+{% extends "lizard_ui/lizardbase.html" %}
+{% load i18n %}
+
+{% block content %}
+  <h1>{{ view.fews_instance }}</h1>
+  <dd>
+    <dt>Configured URL</dt>
+    <dd>
+      <a href="{{ view.fews_instance.url }}">
+        {{ view.fews_instance.url }}
+      </a>
+    </dd>
+    <dt>Parameters URL</dt>
+    <dd>
+      <a href="{{ view.fews_instance.parameters_url }}">
+        {{ view.fews_instance.parameters_url }}
+      </a>
+    </dd>
+    <dt>Filters URL</dt>
+    <dd>
+      <a href="{{ view.fews_instance.filters_url }}">
+        {{ view.fews_instance.filters_url }}
+      </a>
+    </dd>
+    <dt>Locations URL</dt>
+    <dd>
+      <a href="{{ view.fews_instance.locations_url }}">
+        {{ view.fews_instance.locations_url }}
+      </a>
+    </dd>
+  </dt>
+{% endblock content %}

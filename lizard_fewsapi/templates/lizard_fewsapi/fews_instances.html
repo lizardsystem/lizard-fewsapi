@@ -1,0 +1,16 @@
+{% extends "lizard_ui/lizardbase.html" %}
+{% load i18n %}
+
+{% block content %}
+  <div class="textual-content">
+    <ul>
+      {% for fews_instance in view.fews_instances %}
+        <li>
+          <a href="{{ fews_instance.get_absolute_url }}">
+            {{ fews_instance }}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endblock content %}

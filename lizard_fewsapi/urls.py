@@ -15,14 +15,13 @@ admin.autodiscover()
 
 urlpatterns = patterns(
     '',
+    url(r'^$',
+        views.FewsInstancesView.as_view(),
+        name='fewsapi.fews_instances'),
+    url(r'^fews-instance/(?P<pk>\d+)/$',
+        views.FewsInstanceView.as_view(),
+        name='fewsapi.fews_instance'),
     url(r'^ui/', include('lizard_ui.urls')),
-    # url(r'^map/', include('lizard_map.urls')),
     url(r'^admin/', include(admin.site.urls)),
-    # url(r'^something/',
-    #     views.some_method,
-    #     name="name_it"),
-    # url(r'^something_else/$',
-    #     views.SomeClassBasedView.as_view(),
-    #     name='name_it_too'),
     )
 urlpatterns += debugmode_urlpatterns()

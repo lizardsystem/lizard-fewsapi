@@ -1,0 +1,38 @@
+# (c) Nelen & Schuurmans.  GPL licensed, see LICENSE.rst.
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+from __future__ import print_function
+import logging
+
+import requests
+
+logger = logging.getLogger(__name__)
+
+
+def collect_filters(url):
+    """Return filters from FEWS, cleaned and ready for storing as json."""
+    r = requests.get(url)
+    r.raise_for_status()  # Only raises an error when not succesful.
+    from_fews = r.json()
+    result = []
+    for filter_dict in from_fews:
+        result.append(_process_filter_dict(filter_dict))
+    return result
+
+
+def _process_filter_dict(filter_dict):
+    # {'filter': {name, childfilters, etc}
+    content = filter_dict['filter']
+    name = content['name']
+    description = content['description']
+    if name == description:
+        # Description is only interesting if it is different from the name.
+        # Often it is the same, so we've got to filter it out.
+        description = ''
+    children = [_process_filter_dict(child_filter_dict)
+                for child_filter_dict in content.get('childFilters', [])]
+    result = {'id': content['id'],
+              'name': name,
+              'description': description,
+              'children': children}
+    return result

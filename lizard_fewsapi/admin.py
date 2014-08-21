@@ -8,4 +8,4 @@ from django.contrib import admin
 from lizard_fewsapi import models
 
 
-# admin.site.register(models.TODO)
+admin.site.register(models.FewsInstance)
